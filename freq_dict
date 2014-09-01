@@ -1,0 +1,13 @@
+  #!/usr/bin/env python3
+                                  
+  def split_to_words(text):
+          
+  class FreqDict:
+      def __init__(self,words):   
+          self.words=words
+          self.create_dict()
+      def create_dict(self):
+          self.fd=[] 
+          def is_in_dict(self,word):
+          
+  def sort_freq_dir(freq_dict):  
