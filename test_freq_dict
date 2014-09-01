@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+
+import freq_dict
+
+class TestFreqDict(unittest.TestCase):
+    def setUp(self):
+
+    def test_split_words(self):
+        text1='Иван Анна'
+        text2='Иван - Анна'
+        text3='Иван,- Анна'
+        text4='Иван Анна дом '
+        list_of_two_words1=['иван','анна']
+        list_of_three_words=['иван','анна','дом']
+        self.assertTrue(freq_dict.split_to_words(text1)==list_of_two_words, 'split to words test: wrong split'
+        self.assertTrue(freq_dict.split_to_words(text2)==list_of_two_words, 'split to words test: wrong remove one puntuation mark'
+        self.assertTrue(freq_dict.split_to_words(text3)==list_of_two_words, 'split to words test: wrong remove two puntuation marks'
+        self.assertTrue(freq_dict.split_to_words(text4)==list_of_three_words, 'split to words test: wrong split od three words'
+
+    def test_create_freq_dict(self):
+        dict1={'иван': 1, 'анна': 1}
+        dict2={'иван': 2, 'анна': 1}
+        list_of_words1=['иван','анна']
+        list_of_words2=['иван','анна','иван']
+        self.assertTrue(list_of_words1.freq_dict.create_dict()==dict1, 'create freq dict test: wrong'
+        self.assertTrue(list_of_words2.freq_dict.create_dict()==dict2, 'create freq dict test:wrong split of two words '
+
+    def test_sort(self):
+        dict={'иван': 1, 'анна': 2}
+        sort_dict={'анна': 2, 'иван': 1}
+        self.assertTrue(freq_dict.sort_freq_dict(dict)==sort_dict, 'sort test: wrong sort) 
+~                                                                                                 
