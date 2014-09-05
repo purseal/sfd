@@ -31,3 +31,9 @@ class FreqDict:
 def sort_freq_dict(freq_dict):
 '''sort freq dict'''
     sorted(freq_dict, key= lambda dict: dict[1])
+
+if __name__ == "__main__":
+    split_to_words(text)
+    dict = FreqDict(words)
+    dict.creat_dict()
+    sort_freq_dict(dict)
