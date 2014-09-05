@@ -3,34 +3,28 @@
 
 import freq_dict
 
-fd1 = [ ['иван', 1], ['анна', 1] ]
-fd2 = [ ['анна', 1], ['иван', 2] ]
-sort_freq_dict = [ ['иван', 2], ['анна', 1] ]
+fd1 = [['иван', 1], ['анна', 1]] 
+fd2 = [['анна', 1], ['иван', 2]] 
+sort_freq_dict = [['иван', 2], ['анна', 1]] 
 
 
 class TestFreqDict(unittest.TestCase):
     def setUp(self):
 
     def test_split_words(self):
-        text = [ 
-            'дом', 'Иван', 'Анна',
-             ' ', ',', '-',
-            ]   
-        text1='Иван Анна'
-        text2='Иван - Анна'
-        text3='Иван,- Анна'
-        text4='Иван Анна дом '
-        list_of_words = ['иван','анна','дом']
-        self.assertTrue(freq_dict.split_to_words(text1) == list_of_two_words, 'split to words test: wrong split'
-        self.assertTrue(freq_dict.split_to_words(text2) == list_of_two_words, 'split to words test: wrong remove one puntuation mark'
-        self.assertTrue(freq_dict.split_to_words(text3) == list_of_two_words, 'split to words test: wrong remove two puntuation marks'
-        self.assertTrue(freq_dict.split_to_words(text4) == list_of_three_words, 'split to words test: wrong split od three words'
+        text = ['Иван Анна', 'Иван - Анна', 'Иван,- Анна', 'Иван Анна дом ']
+        list_of_words = [['иван','анна'], ['иван','анна'], ['иван','анна'], ['иван','анна','дом']]
+        for (t,l) in zip(text, list_of_words):
+            self.assertTrue(freq_dict.split_to_words(t) == l, 'split to words test: wrong split')
 
     def test_create_freq_dict(self):
         list_of_words1 = ['иван','анна']
         list_of_words2 = ['анна','иван','иван']
-        self.assertTrue(list_of_words1.freq_dict.create_dict() == fd1, 'create freq dict test: wrong'
-        self.assertTrue(list_of_words2.freq_dict.create_dict() == fd2, 'create freq dict test:wrong split of two words '
+        self.assertTrue(list_of_words1.freq_dict.create_dict() == fd1, 'create freq dict test: wrong')
+        self.assertTrue(list_of_words2.freq_dict.create_dict() == fd2, 'create freq dict test:wrong split of two words ')
 
     def test_sort(self):
-        self.assertTrue(freq_dict.sort_freq_dict(fd2) == sort_freq_dict, 'sort test: wrong sort) 
+        self.assertTrue(freq_dict.sort_freq_dict(fd2) == sort_freq_dict, 'sort test: wrong sort')
+
+if __name__ == '__main__':
+    unittest.main()
