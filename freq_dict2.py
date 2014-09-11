@@ -10,7 +10,21 @@ def split_to_words(text):
     text = text.strip()
     text = re.sub('\d', '', text)
     words = re.split('\W*', text)
-    return words
+    return word
+    
+    def find_in_dict(words):
+    fd = []
+    i = 0
+    for word in words:
+        i +=1
+        if word == fd[i][0]:    
+            fd[i][1] +=1
+            print ('case is true')
+        else:
+            fd.append([word, 1])
+            print ([word, 1])
+    return fd
+
 
 if __name__ == '__main__':
     split_to_words(text1)  
