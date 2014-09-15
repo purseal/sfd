@@ -1,22 +1,34 @@
 #!/usr/bin/env python3
 #this file create a freq dict of text
 
-import re 
+import re
 
-text1 = 'aa, bb AA ccc bb,- d'
+text1 = 'aa, bb AA ccc bb,- d ffff'
 
 def split_to_words(text):
     text = text.lower()
     text = text.strip()
     text = re.sub('\d', '', text)
     words = re.split('\W*', text)
-    return word
-    
-    def find_in_dict(word, fd):
+    return words
+
+def find_in_dict(word, fd):
     for i in range(len(fd)):
         if word == fd[i][0]:    
             return i
     return None
-    
+
+def add_word(word, fd):
+    i = find_in_dict(word, fd)
+    if find_in_dict(word, fd) is None:
+        fd.append([word, 1])
+    else:
+        fd[i][1] +=1
+    return fd
+
 if __name__ == '__main__':
-    split_to_words(text1)  
+    words = split_to_words(text1)
+    fd = []
+    for word in words:
+        find_in_dict(word, fd)
+        add_word(word, fd)
