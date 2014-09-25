@@ -30,5 +30,15 @@ class TestFreqDict(unittest.TestCase):
         self.assertTrue(freq_dict2.add_word(word, fd1) == new_fd1, 'add word in freq dict test1: [false]')
         self.assertTrue(freq_dict2.add_word(word, fd2) == new_fd2, 'add word in freq dict test2: [false]')
 
+    def test_create_dict(self):
+        words = ['aa', 'bb', 'cc', 'aa', 'bb', 'bb']
+        fd = [['aa', 2], ['bb', 3], ['cc', 1]]
+        self.assertTrue(freq_dict2.create_dict(words) == fd, 'create dict test: [false]')
+
+    def test_sort(self):
+        fd = [['ff', 2], ['bb', 3], ['cc', 1], ['aa', 2]]
+        sort_fd = [['bb', 3], ['ff', 2], ['aa', 2], ['cc', 1]]
+        self.assertTrue(freq_dict2.sort(fd) == sort_fd, 'sort test: [false]')
+
 if __name__ == '__main__':
     unittest.main()
