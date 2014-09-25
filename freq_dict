@@ -3,41 +3,37 @@
 
 import re
 
-text1 = 'aa, bb AA ccc bb,- d ffff'
-
 def split_to_words(text):
-    text = text.lower()
-    text = text.strip()
-    text = re.sub('\d', '', text)
-    words = re.split('\W*', text)
-    return words
+'''split text to words separated by space'''
+    text.lower()
+    re.sub('/d', '', text)
+    words = re.split('/W*', text)
 
-def find_in_dict(word, fd):
-    for i in range(len(fd)):
-        if word == fd[i][0]:    
-            return i
-    return None
+class FreqDict:
+'''create freq dict'''
+    def __init__(self, words):
+        self.words = words
+        self.create_dict()
+    def create_dict(self):
+        self.fd = []
+        def is_not_in_dict(self, word):
+            for i in rang(len(words)):
+                if word == words[i]:
+                    return i
+                else:
+                    return True
+        #add 
+        for word in words:
+            if is_not_in_dict(word) == True:
+                self.fd.append(word)
+            else:
+                words[is_not_in_dict(word)][1] +=1
 
-def add_word(word, fd):
-    i = find_in_dict(word, fd)
-    if find_in_dict(word, fd) is None:
-        fd.append([word, 1])
-    else:
-        fd[i][1] +=1
-    return fd
+def sort_freq_dict(freq_dict):
+'''sort freq dict'''
+    sorted(freq_dict, key= lambda dict: dict[1])
 
-def create_dict(words):
-    fd = []
-    for word in words:
-        find_in_dict(word, fd)
-        add_word(word, fd)
-    return fd
-
-def sort(fd):
-    return sorted(fd, key= lambda dict: dict[1], reverse=True)
-
-if __name__ == '__main__':
-    words = split_to_words(text1)
-    fd = create_dict (words)
-    sort(fd)
-    print(fd)
+if __name__ == "__main__":
+    split_to_words(text)
+    dict = FreqDict(words)
+                                  
