@@ -26,9 +26,18 @@ def add_word(word, fd):
         fd[i][1] +=1
     return fd
 
-if __name__ == '__main__':
-    words = split_to_words(text1)
+def create_dict(words):
     fd = []
     for word in words:
         find_in_dict(word, fd)
         add_word(word, fd)
+    return fd
+
+def sort(fd):
+    return sorted(fd, key= lambda dict: dict[1], reverse=True)
+
+if __name__ == '__main__':
+    words = split_to_words(text1)
+    fd = create_dict (words)
+    sort(fd)
+    print(fd)
