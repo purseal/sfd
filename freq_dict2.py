@@ -39,5 +39,5 @@ def sort(fd):
 if __name__ == '__main__':
     words = split_to_words(text1)
     fd = create_dict (words)
-    sort(fd)
+    fd = sort(fd)
     print(fd)
