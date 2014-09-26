@@ -2,6 +2,9 @@
 #this file create a freq dict of text
 
 import re
+import os
+import sys
+import uu
 
 text1 = 'aa, bb AA ccc bb,- d ffff'
 
@@ -37,6 +40,9 @@ def sort(fd):
     return sorted(fd, key= lambda dict: dict[1], reverse=True)
 
 if __name__ == '__main__':
+    file = open (os.path.join('/home/maria/', sys.argv[1]))
+    #uu.decode (file)
+    text1 = file.read()
     words = split_to_words(text1)
     fd = create_dict (words)
     fd = sort(fd)
