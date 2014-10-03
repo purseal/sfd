@@ -6,47 +6,45 @@ import os
 import sys
 import uu
 
-text1 = 'aa, bb AA ccc bb,- d ffff'
+class dict():
 
-def split_to_words(text):
-    text = text.lower()
-    text = text.strip()
-    text = re.sub('\d', '', text)
-    words = re.split('\W*', text)
-    return words
+    def split_to_words(self, text):
+        text = text.lower()
+        text = text.strip()
+        text = re.sub('\d', '', text)
+        words = re.split('\W*', text)
+        return words
 
-def find_in_dict(word, fd):
-    for i in range(len(fd)):
-        if word == fd[i][0]:    
-            return i
-    return None
+    def find_in_dict(self ,word, fd):
+        if word in fd:    
+            return True
+        return None
 
-def add_word(word, fd):
-    i = find_in_dict(word, fd)
-    if find_in_dict(word, fd) is None:
-        fd.append([word, 1])
-    else:
-        fd[i][1] +=1
-    return fd
+    def add_word(self, word, fd):
+        if self.find_in_dict(word, fd) is None:
+            fd[word] = 1
+        else:
+            fd[word] +=1
+        return fd
 
-def create_dict(words):
-    fd = []
-    for word in words:
-        find_in_dict(word, fd)
-        add_word(word, fd)
-    return fd
+    def create_dict(self, words):
+        fd ={} 
+        for word in words:
+            self.find_in_dict(word, fd)
+            self.add_word(word, fd)
+        return fd
 
-def sort(fd):
-    return sorted(fd, key= lambda dict: dict[1], reverse=True)
+    def sort(self, fd):
+        sorted(fd.values(), reverse=True)
+        return fd
 
 if __name__ == '__main__':
-    my_file = open (os.path.join('/home/maria/', sys.argv[1]))
-    text1 = my_file.read()
-    words = split_to_words(text1)
-    fd = create_dict (words)
-    fd = sort(fd)
-    final_file = open (os.path.join('/home/maria/', sys.argv[2]), 'w+')
-    for item in fd:
-        final_file.write(str(item))
-    my_file.close()
-    final_file.close() 
+    sfd = dict()
+    with open(sys.argv[1]) as text_file:
+        string_of_text = text_file.read()
+        words = sfd.split_to_words(string_of_text)
+        fd = sfd.create_dict (words)
+        fd = sfd.sort(fd)
+        with open(sys.argv[2], 'w+') as fd_file:
+            for item in fd:
+                fd_file.write(str(item))
