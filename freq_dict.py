@@ -46,5 +46,7 @@ if __name__ == '__main__':
         fd = sfd.create_dict (words)
         fd = sfd.sort(fd)
         with open(sys.argv[2], 'w+') as fd_file:
-            for item in fd:
-                fd_file.write(str(item))
+            for item in fd.keys():
+                #for i in range(len(fd)):
+                    #if fd[key] == i:
+                        fd_file.write(str(fd[key]) + ' ' + str(key) + ' ')
