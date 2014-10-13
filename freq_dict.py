@@ -5,8 +5,9 @@ import re
 import os
 import sys
 import uu
+import operator
 
-class dict():
+class FrequencyDict:
 
     def split_to_words(self, text):
         text = text.lower()
@@ -14,6 +15,42 @@ class dict():
         text = re.sub('\d', '', text)
         words = re.split('\W*', text)
         return words
+   
+
+class FrequencyDict_ListImpl(FrequencyDict):
+'''Implementation of creating a frequency dict with lists'''
+
+    fd =[] 
+
+    def find_in_dict(self ,word, fd):
+        for i in range(len(fd)):
+            if word == fd[i][0]:
+                return i
+         return None
+
+    def add_word(self, word, fd):
+        i = find_in_dict(word, fd)
+        if find_in_dict(word, fd) is None:
+            fd.append([word, 1])
+        else:
+            fd[i][1] +=1
+        return fd
+
+    def create_dict(self, words):
+        for word in words:
+            self.find_in_dict(word, self.fd)
+            self.add_word(word, self.fd)
+        return self.fd
+
+    def sort(self, fd):
+        fd = sorted(fd, key= lambda dict: dict[1], reverse=True)
+        return fd
+
+
+class FrequencyDict_DictImpl(FrequencyDict):
+'''Implementation of creating a frequency dict with dictionaries'''
+
+    fd ={} 
 
     def find_in_dict(self ,word, fd):
         if word in fd:    
@@ -28,25 +65,26 @@ class dict():
         return fd
 
     def create_dict(self, words):
-        fd ={} 
         for word in words:
-            self.find_in_dict(word, fd)
-            self.add_word(word, fd)
-        return fd
+            self.find_in_dict(word, self.fd)
+            self.add_word(word, self.fd)
+        return self.fd
 
     def sort(self, fd):
-        sorted(fd.values(), reverse=True)
+        sorted(fd.items(), key=operator.itemgetter(1), reverse=True)
         return fd
 
+
 if __name__ == '__main__':
-    sfd = dict()
-    with open(sys.argv[1]) as text_file:
+    sfd = FrequencyDict_DictImpl()
+    input_file_name = sys.argv[1]
+    output_file_name = sys.argv[2]
+    with open(input_file_name) as text_file:
         string_of_text = text_file.read()
         words = sfd.split_to_words(string_of_text)
         fd = sfd.create_dict (words)
         fd = sfd.sort(fd)
-        with open(sys.argv[2], 'w+') as fd_file:
-            for item in fd.keys():
-                #for i in range(len(fd)):
-                    #if fd[key] == i:
-                        fd_file.write(str(fd[key]) + ' ' + str(key) + ' ')
+    with open(output_file_name, 'w+') as fd_file:
+        for count, word in fd:
+            output = '{} {}\n'.format(word, count)
+            fd_file.write(output)
