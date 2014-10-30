@@ -9,7 +9,12 @@ import operator
 
 class FrequencyDict:
 
-    fd =[] 
+    fd =[]
+
+    def create_dict(self, words):
+        for word in words:
+            self.add_word(word)
+        return self.fd
 
     @staticmethod
     def split_to_words(text):
@@ -28,17 +33,15 @@ class FrequencyDict:
     def create_dict(self, words):
         raise NotImplementedError
 
-    def sort(self): 
+    def sort(self):
         raise NotImplementedError
 
 class FreqDictList(FrequencyDict):
     ''' Implementation of frequency dictionary's creating with lists. '''
     def create_dict(self, words):
-        print('create dict: fdl')
         for word in words:
             self.add_word(word)
-        return self.fd 
-
+        return self.fd
     def find_in_dict(self, word):
         for i in range(len(self.fd)):
             if word == self.fd[i][0]:
@@ -52,24 +55,23 @@ class FreqDictList(FrequencyDict):
         else:
             self.fd[i][1] +=1
         return self.fd
- 
+
     def sort(self):
-        self.fd = sorted(self.fd, key= lambda dict: dict[1], reverse=True)
+        self.fd = sorted(self.fd, key=lambda dict: dict[1], reverse=True)
         return self.fd
 
 
 class FreqDictDict(FrequencyDict):
     ''' Implementatio of frequency dictionary's creating with dictionaries. '''
 
-    fd ={} 
+    fd ={}
     def create_dict(self, words):
-        print('create dict: fdd')
         for word in words:
             self.add_word(word)
-        return self.fd 
+        return self.fd
 
     def find_in_dict(self, word):
-        if word in self.fd:    
+        if word in self.fd:
             return -1
         return None
 
@@ -81,8 +83,8 @@ class FreqDictDict(FrequencyDict):
         return self.fd
 
     def sort(self):
-        sorted(self.fd.items(), key=operator.itemgetter(1), reverse=True)
-        return [[key, item] for key, item in self.fd.items()]
+        sort_list_of_tuples = sorted(self.fd.items(), key=operator.itemgetter(1), reverse=True)
+        return [[key, item] for key, item in sort_list_of_tuples]
 
 
 if __name__ == '__main__':
