@@ -5,19 +5,48 @@ import unittest
 
 class TestTreeStruct(unittest.TestCase):
 
-    def setUp(self):
-        pass
-    
-    def test_addNode(self):
-        t = ts.Tree()
-        word = 'a'
-        exp_tree = ts.Node (word, 1, None, None)
-        res = t.addNode(word, None, None)
-        print(type(res), type (exp_tree))
-        print('res(' + res.word + ', ' + str(res.cnt) + ', ' + str(res.left) + ', ' + str(res.right) + ')')
-        print ('exp_tree(' + exp_tree.word + ', ' + str(exp_tree.cnt) + ', ' + str(exp_tree.left) + ', ' + str(exp_tree.right) + ')')
-        self.assertTrue(res == exp_tree, 'test add node in an empty tree: [false]')
-    
+    word1 = 'b'
+    word2 = 'c'
+    empty_tree = ts.Tree()
+    root = ts.Node('d', 1, None, None)
+    node1 = ts.Node('a', 1, None, None)
+    node2 = ts.Node('b', 2, None, None)
+    node3 = ts.Node('e', 1, None, None)
+    root.left = node2
+    root.right = node3
+    root.left.left = node1
+    tree = ts.Tree()
+    tree.root = root
+    node4 = ts.Node('c', 1, None, None)
+    node2.right = node4
+    result_tree = root
+
+    def test_find_parent(self):
+        res = self.empty_tree.find_parent(self.word1)
+        self.assertTrue(res == None, 'test find parent: [false], was {}, should None'.format(res))
+        list_of_exp_parent = [self.node2, self.node2]
+        list_of_res = [self.tree.find_parent(self.word2), self.tree.find_parent(self.word1)]
+        for r,e in zip(list_of_exp_parent, list_of_res): 
+            self.assertTrue(r == e, '''test find parent: [false],
+                was: res({}, {},'''.format(r.word, r.cnt) + ' {}, {}), '.format( r.left, r.right) + '''
+                should: exp_tree({}, {},'''.format(e.word, e.cnt) + '{}, {})'.format(e.left, e.right))
+        print ('find_parent error')
+
+    def test_add_node(self):
+        e = ts.Tree()
+        e.root = self.node2
+        list_of_exp_tree = [e, self.result_tree]
+        list_of_res = [self.empty_tree.add_node(self.word1), self.tree.add_node(self.word2)]
+        for r,e in zip(list_of_exp_tree, list_of_res): 
+            print('add_note error')
+            self.assertTrue(r == e, '''test find parent: [false],
+                was: res({}, {},'''.format(r.word, r.cnt) + ' {}, {}), '.format( r.left, r.right) + '''
+                should: exp_tree({}, {},'''.format(e.root.word, e.root.cnt) + '{}, {})'.format(e.left, e.right))
+#        exp_tree = ts.Node (self.word1, 1, None, None)
+ #       res = self.empty_tree.add_node(self.word1)
+  #      self.assertTrue(res == exp_tree, '''test add node in an empty tree: [false] 
+   #         was: res({}, {},'''.format(res.word, res.cnt) + ' {}, {}),'.format( res.left, res.right) + '''
+    #        should: exp_tree({}, {},'''.format(exp_tree.word, exp_tree.cnt) + '{}, {})'.format(exp_tree.left, exp_tree.right))
     
 if __name__ == '__main__':
     unittest.main()
