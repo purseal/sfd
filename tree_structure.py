@@ -8,7 +8,6 @@ class Node:
         self.right = right
 
 class Tree:
-
     node = Node()
 
     def __init__(self):

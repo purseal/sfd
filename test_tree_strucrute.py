@@ -4,7 +4,6 @@ import tree_structure as ts
 import unittest
 
 class TestTreeStruct(unittest.TestCase):
-
     word1 = 'b'
     word2 = 'c'
     empty_tree = ts.Tree()
