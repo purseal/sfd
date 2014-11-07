@@ -42,11 +42,6 @@ class TestTreeStruct(unittest.TestCase):
             self.assertTrue(r == e, '''test find parent: [false],
                 was: res({}, {},'''.format(r.word, r.cnt) + ' {}, {}), '.format( r.left, r.right) + '''
                 should: exp_tree({}, {},'''.format(e.root.word, e.root.cnt) + '{}, {})'.format(e.left, e.right))
-#        exp_tree = ts.Node (self.word1, 1, None, None)
- #       res = self.empty_tree.add_node(self.word1)
-  #      self.assertTrue(res == exp_tree, '''test add node in an empty tree: [false] 
-   #         was: res({}, {},'''.format(res.word, res.cnt) + ' {}, {}),'.format( res.left, res.right) + '''
-    #        should: exp_tree({}, {},'''.format(exp_tree.word, exp_tree.cnt) + '{}, {})'.format(exp_tree.left, exp_tree.right))
     
 if __name__ == '__main__':
     unittest.main()
