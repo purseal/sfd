@@ -8,23 +8,6 @@ import copy
 class TestTreeStruct(unittest.TestCase):
     word1 = 'b'
     word2 = 'c'
-    root = ts.Node('d', 1, None, None)
-    node1 = ts.Node('a', 1, None, None)
-    node2 = ts.Node('b', 2, None, None)
-    node3 = ts.Node('e', 1, None, None)
-    root.left = node2
-    root.right = node3
-    root.left.left = node1
-    tree = ts.Tree()
-    tree.root = root
-    node4 = ts.Node('c', 1, None, None)
-    exp_tree = ts.Tree()
-    root2 = ts.Node('d', 1, None, None)
-    root2.left = node2
-    root2.right = node3
-    root2.left.left = node1
-    exp_tree.root = root2
-    exp_tree.root.left.right = node4
 
     def test_node_eq(self):
         n1 = ts.Node('a', 2)
@@ -40,7 +23,7 @@ class TestTreeStruct(unittest.TestCase):
     def test_find_parent(self):
         empty_tree = ts.Tree()
         res = empty_tree.find_parent(self.word1)
-        self.assertTrue(res == None, 'test find parent: [false], was {}, should None'.format(str(res)))
+        self.assertTrue(res == None, 'test find parent in empty tree: [false], was {}, should None'.format(str(res)))
         tree = ts.Tree()
         tree.root = ts.Node('d', 1)
         tree.root.left = ts.Node('b', 2)
@@ -54,21 +37,49 @@ class TestTreeStruct(unittest.TestCase):
             res.word, res.cnt)
         message += ' {}, {}), '.format(res.left, res.right)
         message += 'should: exp_tree({}, {},'.format(exp_node.word, exp_node.cnt) 
-        message += '{}, {})'.format(exp_node.left, exp_node.right)
+        message += ' {}, {})'.format(exp_node.left, exp_node.right)
 
         assert res == exp_node, message
 
     def test_add_node(self):
         empty_tree = ts.Tree()
-        self.tree.root = self.root
-        e = ts.Tree()
-        e.root = self.node2
-        list_of_exp_tree = [e, self.exp_tree]
-        list_of_res = [empty_tree.add_node(self.word1), self.tree.add_node(self.word2)]
-        for e,r in zip(list_of_exp_tree, list_of_res): 
-            self.assertTrue(r == e, '''test add node: [false],
-                was: res({}, {},'''.format(r.root.word, r.root.cnt) + ' {}, {}), '.format( r.root.left, r.root.right) + '''
-                should: exp_tree({}, {},'''.format(e.root.word, e.root.cnt) + '{}, {})'.format(e.root.left, e.root.right))
+        exp = ts.Tree()
+        exp.root = ts.Node('b', 1)
+        res = empty_tree.add_node(self.word1)
+        message = 'test add node in empty tree: [false], was: res('
+        message += '{}, {},'.format(res.root.word, res.root.cnt)
+        message += ' {}, {}), '.format(res.root.left, res.root.right)
+        message += 'should: exp({}, {},'.format(exp.root.word, exp.root.cnt)
+        message += '{}, {})'.format(exp.root.left, exp.root.right)
+
+        assert res == exp, message
+
+        tree = ts.Tree()
+        tree.root = ts.Node('d', 1)
+        tree.root.left = ts.Node('b', 2)
+        tree.root.right = ts.Node('e', 1)
+        tree.root.left.left = ts.Node('a', 1)
+        exp_tree = ts.Tree()
+        exp_tree.root = ts.Node('d', 1)
+        exp_tree.root.left = ts.Node('b', 2)
+        exp_tree.root.right = ts.Node('e', 1)
+        exp_tree.root.left.left = ts.Node('a', 1)
+        exp_tree.root.left.right = ts.Node('c', 1)
+        res = tree.add_node(self.word2)
+        message = 'test add node: [false], was: res('
+        message += ' {}, {},'.format(res.root.word, res.root.cnt)
+        message += ' {}, {}), '.format(res.root.left, res.root.right)
+        message += 'should: exp({}, {},'.format(exp_tree.root.word, exp_tree.root.cnt)
+        message += '{}, {})'.format(exp_tree.root.left, exp_tree.root.right)
+
+        assert res == exp_tree, message
+
+     #  list_of_exp_tree = [e, exp_tree]
+      #  list_of_res = [empty_tree.add_node(self.word1), tree.add_node(self.word2)]
+       # for e,r in zip(list_of_exp_tree, list_of_res): 
+        #    self.assertTrue(r == e, '''test add node: [false],
+         #       was: res({}, {},'''.format(r.root.word, r.root.cnt) + ' {}, {}), '.format( r.root.left, r.root.right) + '''
+          #      should: exp_tree({}, {},'''.format(e.root.word, e.root.cnt) + '{}, {})'.format(e.root.left, e.root.right))
     
 
 if __name__ == '__main__':
