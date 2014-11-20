@@ -64,8 +64,7 @@ class Tree:
         if self.root == None:
             return None
         parent = self.root
-        i = 0
-        while parent.left != None or parent.right != None and i<6:
+        while parent.left != None or parent.right != None:
             if parent.word > word:
                 if parent.left is None:
                     return parent
@@ -78,7 +77,6 @@ class Tree:
                     parent = parent.right
             else: 
                 return parent
-            i += 1
         return parent 
         
 def add_node(self, word):
