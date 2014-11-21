@@ -1,4 +1,4 @@
-#!usr/bin/env python3 
+#!usr/bin/env python3
 
 class Node:
     def __init__(self, word=None, cnt=None, left=None, right=None):
@@ -6,7 +6,7 @@ class Node:
         self.cnt = cnt
         self.left = left
         self.right = right
-    
+
     def __repr__(self):
         return 'node: {} {}, l={}, r={}'.format(self.word, self.cnt,
                                                 None if not self.left else self.left.word,
@@ -44,10 +44,15 @@ class Tree:
                     return parent
                 else:
                     parent = parent.right
-            else: 
+            else:
                 return parent
-        return parent 
-        
+        return parent
+
+    def __eq__(self, other):
+        if not other:
+            return False
+        return (self.root == other.root)
+
     def add_node(self, word):
         parent = self.find_parent(word)
         if parent == None:
@@ -67,4 +72,4 @@ class Tree:
             parent.left = new_node
             return self
         parent = new_node
-        return self 
+        return self

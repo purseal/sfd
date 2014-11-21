@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import pdb
-import tree_structure as ts 
+import tree_structure as ts
 import unittest
 import copy
 
@@ -36,7 +36,7 @@ class TestTreeStruct(unittest.TestCase):
         message = 'test find parent: [false], was: res({}, {},'.format(
             res.word, res.cnt)
         message += ' {}, {}), '.format(res.left, res.right)
-        message += 'should: exp_tree({}, {},'.format(exp_node.word, exp_node.cnt) 
+        message += 'should: exp_tree({}, {},'.format(exp_node.word, exp_node.cnt)
         message += ' {}, {})'.format(exp_node.left, exp_node.right)
 
         assert res == exp_node, message
@@ -76,11 +76,11 @@ class TestTreeStruct(unittest.TestCase):
 
      #  list_of_exp_tree = [e, exp_tree]
       #  list_of_res = [empty_tree.add_node(self.word1), tree.add_node(self.word2)]
-       # for e,r in zip(list_of_exp_tree, list_of_res): 
+       # for e,r in zip(list_of_exp_tree, list_of_res):
         #    self.assertTrue(r == e, '''test add node: [false],
          #       was: res({}, {},'''.format(r.root.word, r.root.cnt) + ' {}, {}), '.format( r.root.left, r.root.right) + '''
           #      should: exp_tree({}, {},'''.format(e.root.word, e.root.cnt) + '{}, {})'.format(e.root.left, e.root.right))
-    
+
 
 if __name__ == '__main__':
     unittest.main()
