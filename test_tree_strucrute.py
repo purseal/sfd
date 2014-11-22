@@ -113,7 +113,7 @@ class TestTreeStruct(unittest.TestCase):
         message += 'should: exp({}, {},'.format(exp_tree.root.word,
                                                 exp_tree.root.cnt)
         message += '{}, {})'.format(exp_tree.root.left, exp_tree.root.right)
-        
+
         assert res == exp_tree, message
 
     def test_find_node(self):
@@ -159,7 +159,7 @@ class TestTreeStruct(unittest.TestCase):
 
         assert res is None, message
 
-        node = ts.Node ('s', 3)
+        node = ts.Node('s', 3)
         res = tree.find_node(node)
         message = 'test find not existing node in not empty tree: [false],'
         message += 'was: res({}, {}, {}, {}), should: None'.format(
@@ -169,7 +169,7 @@ class TestTreeStruct(unittest.TestCase):
             None if not res else res.right
             )
 
-        assert res is None, message 
+        assert res is None, message
 
 if __name__ == '__main__':
     unittest.main()

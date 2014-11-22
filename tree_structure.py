@@ -88,6 +88,7 @@ class Tree:
             return self
 
     def find_node(self, node):
+        '''Method finds node in tree'''
         comp_node = self.root
         while comp_node is not None:
             if comp_node.word > node.word:
