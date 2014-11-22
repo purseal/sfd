@@ -86,3 +86,20 @@ class Tree:
         if parent.word < word:
             parent.right = new_node
             return self
+
+    def find_node(self, node):
+        comp_node = self.root
+        while comp_node is not None:
+            if comp_node.word > node.word:
+                if comp_node.left is not None:
+                    comp_node = comp_node.left
+                else:
+                    return None
+            elif comp_node.word < node.word:
+                if comp_node.right is not None:
+                    comp_node = comp_node.right
+                else:
+                    return None
+            else:
+                return comp_node
+        return None
