@@ -9,11 +9,13 @@ import copy
 class Node:
     """ Class, which contains main properties of node. """
 
-    def __init__(self, word=None, cnt=None, left=None, right=None):
+    def __init__(self, word=None, cnt=None, left=None, right=None, parent=None, checked=False):
         self.word = word
         self.cnt = cnt
         self.left = left
         self.right = right
+        self.parent = parent
+        self.checked = checked
 
     def __eq__(self, other):
         if not other:
@@ -26,9 +28,10 @@ class Node:
 
     def __repr__(self):
         message = 'node: {} {},'.format(self.word, self.cnt)
-        message += ' l={}, r={}'.format(
+        message += ' l={}, r={}, p={}'.format(
             None if not self.left else self.left.word,
-            None if not self.right else self.right.word
+            None if not self.right else self.right.word,
+            None if not self.parent else self.parent.word
             )
 
         return message
@@ -85,6 +88,7 @@ class Tree:
             return self
         new_node = Node(None, None, None, None)
         new_node.word = word
+        new_node.parent = parent
         new_node.cnt = 1
         if parent.word > word:
             parent.left = new_node
@@ -111,7 +115,7 @@ class Tree:
                 return comp_node
         return None
 
-class FreqDictImpl(Tree):
+class FreqDictTree(Tree):
 
     tree = Tree()
 
@@ -130,22 +134,23 @@ class FreqDictImpl(Tree):
 
     def convert_tree_to_list(self):
         current_node = self.tree.root
-        freq_dict = []
-        #не запускай код! зависнет комп
-        while (self.tree.root.left is not None and
-               self.tree.root.right is not None):
-            while (current_node.left is not None or
-                   current_node.right is not None):
-                if current_node.left is not None:
-                    current_node = current_node.left
-                elif current_node.right is not None:
-                    current_node = current_node.right
-            word = current_node.word
-            count = current_node.cnt
-            freq_dict.append([word, count])
-            current_node = None
-            current_node = self.tree.find_parent(word)
-        word = self.tree.root.word
-        count = self.tree.root.count
-        freq_dict.append([word, count])
-        return freq_dict
+        list_of_nodes = []
+        while 1:
+            print('cn:', current_node)
+            if current_node.left and not current_node.left.checked:
+                current_node = current_node.left
+                continue
+            elif current_node.right and not current_node.right.checked:
+                current_node = current_node.right
+                continue
+            else:
+                current_node.checked = True
+                list_of_nodes.append(current_node)
+                print('xxx', current_node)
+                if not current_node.parent:
+                    break
+                current_node = current_node.parent
+        for cn in list_of_nodes:
+            cn.checked = False
+        freq_dict_list = [[cn.word, cn.cnt] for cn in list_of_nodes]
+        return freq_dict_list
