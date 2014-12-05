@@ -143,6 +143,31 @@ class TestTreeStruct(unittest.TestCase):
         exp_res = [['b', 2], ['a', 1], ['c', 1], ['e', 1], ['d', 1]]
         assert res == exp_res, self.message.format(res, exp_res)
 
+class ImplBaseTest(unittest.TestCase):
+    create_dict_exp = None
+    chosen_implementation = None
+
+    def check_create_dict(self):
+        words = ['aa', 'bb', 'cc', 'aa', 'bb', 'bb']
+        dic = self.chosen_implementation()
+        expected_out = self.create_dict_exp
+        res = dic.create_dict(words)
+        self.assertTrue(res == expected_out, 'create dict test: [false] implementation:{}, was:{} should:{} '.format(type(dic), res, expected_out))
+
+
+class TestFreqDictListImpl(ImplBaseTest):
+    create_dict_exp = [['aa', 2], ['bb', 3], ['cc', 1]]
+    chosen_implementation = freq_dict.FreqDictList
+
+    def test_impl(self):
+        self.check_create_dict()
+
+class TestFreqDictDictImpl(ImplBaseTest):
+    create_dict_exp = {'aa': 2, 'bb': 3, 'cc': 1}
+    chosen_implementation = freq_dict.FreqDictDict
+
+    def test_impl(self):
+        self.check_create_dict()
 
 class TestFreqDict(unittest.TestCase):
 
@@ -205,7 +230,6 @@ class TestFreqDict(unittest.TestCase):
         self.check_split(chosen_implementation)
         self.check_find_dict(chosen_implementation)
         self.check_add_word(chosen_implementation)
-        self.check_create_dict(chosen_implementation)
         self.check_sort(chosen_implementation)
 
     def test_list_impl(self):
