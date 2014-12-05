@@ -3,8 +3,7 @@
     in it.
 """
 
-import re
-import copy
+
 
 class Node:
     """ Class, which contains main properties of node. """
@@ -114,43 +113,3 @@ class Tree:
             else:
                 return comp_node
         return None
-
-class FreqDictTree(Tree):
-
-    tree = Tree()
-
-    @staticmethod
-    def split_to_words(text):
-        text = text.lower()
-        text = text.strip()
-        text = re.sub('\d', '', text)
-        words = re.split('\W*', text)
-        return words
-
-    def create_tree(self, words):
-        for word in words:
-            self.tree = self.tree.add_node(word)
-        return self.tree
-
-    def convert_tree_to_list(self):
-        current_node = self.tree.root
-        list_of_nodes = []
-        while 1:
-            print('cn:', current_node)
-            if current_node.left and not current_node.left.checked:
-                current_node = current_node.left
-                continue
-            elif current_node.right and not current_node.right.checked:
-                current_node = current_node.right
-                continue
-            else:
-                current_node.checked = True
-                list_of_nodes.append(current_node)
-                print('xxx', current_node)
-                if not current_node.parent:
-                    break
-                current_node = current_node.parent
-        for cn in list_of_nodes:
-            cn.checked = False
-        freq_dict_list = [[cn.word, cn.cnt] for cn in list_of_nodes]
-        return freq_dict_list

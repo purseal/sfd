@@ -112,7 +112,7 @@ class TestTreeStruct(unittest.TestCase):
         list_of_words = [['aa','bb'], ['aa','bb'],
                          ['aa','bb'], ['aa','bb','cc']]
         for (t,l) in zip(text, list_of_words):
-            res = ts.FreqDictTree.split_to_words(t)
+            res = freq_dict.FreqDictTree.split_to_words(t)
             assert res == l, self.message.format(res, l)
 
     def test_create_tree(self):
@@ -124,7 +124,7 @@ class TestTreeStruct(unittest.TestCase):
         tree.add_node('e')
         tree.add_node('a')
         tree.add_node('c')
-        fdi_obj = ts.FreqDictTree()
+        fdi_obj = freq_dict.FreqDictTree()
         res = fdi_obj.create_tree(list_of_words)
         exp_res = tree
         assert res == exp_res, self.message.format(res, exp_res)
@@ -137,16 +137,14 @@ class TestTreeStruct(unittest.TestCase):
         tree.add_node('a')
         tree.add_node('c')
         tree.add_node('b')
-        freq_dict = ts.FreqDictTree()
-        freq_dict.tree = tree
-        res = freq_dict.convert_tree_to_list()
-        exp_res = [['a', 1], ['c', 1], ['b', 2], ['e', 1], ['d', 1]]
+        freq_dict_tree = freq_dict.FreqDictTree()
+        freq_dict_tree.tree = tree
+        res = freq_dict_tree.sort()
+        exp_res = [['b', 2], ['a', 1], ['c', 1], ['e', 1], ['d', 1]]
         assert res == exp_res, self.message.format(res, exp_res)
 
-class TestFreqDict(unittest.TestCase):
 
-    def setUp(self):
-        pass
+class TestFreqDict(unittest.TestCase):
 
     def check_split(self, chosen_implementation):
         text = ['aa bb', 'aa - bb', 'aa,- bb', 'aa bb cc ']
@@ -201,18 +199,16 @@ class TestFreqDict(unittest.TestCase):
         self.assertTrue(res == expected_out, 'create dict test: [false] implementation:{}, was:{} should:{} '.format(type(dic), res, expected_out))
 
     def check_sort(self, chosen_implementation):
-        list_fd = [['aa', 2], ['bb', 3], ['cc', 1]]
-        dict_fd = {'aa': 2, 'bb': 3, 'cc': 1}
         sort_fd = [['bb', 3], ['aa', 2], ['cc', 1]]
         dic = chosen_implementation()
-        if isinstance(dic, freq_dict.FreqDictList):
-            dic.fd = list_fd
-            res = dic.sort()
-            self.assertTrue(res == sort_fd, 'sort test: [false] was: {} should:{}'.format(res, sort_fd))
-        else:
-            dic.fd = dict_fd
-            res = dic.sort()
-            self.assertTrue(res == sort_fd, 'sort test: [false] was:{} should:{}'.format(res, sort_fd))
+        dic.add_word('aa')
+        dic.add_word('aa')
+        dic.add_word('bb')
+        dic.add_word('bb')
+        dic.add_word('bb')
+        dic.add_word('cc')
+        res = dic.sort()
+        self.assertTrue(res == sort_fd, 'sort test: [false] was:{} should:{}'.format(res, sort_fd))
 
     def check_implementation(self, chosen_implementation):
         self.check_split(chosen_implementation)
