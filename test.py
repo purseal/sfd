@@ -154,10 +154,22 @@ class ImplBaseTest(unittest.TestCase):
         res = dic.create_dict(words)
         self.assertTrue(res == expected_out, 'create dict test: [false] implementation:{}, was:{} should:{} '.format(type(dic), res, expected_out))
 
+    def check_find_dict(self):
+        word = 'dd'
+        dic = chosen_implementation()
+        dic.fd = self.fd1
+        self.assertTrue(dic.find_in_dict(word) == self.find_dict_right_index, 'find word in freq dict test1 list: [false]')
+        dic.fd = self.fd2
+        self.assertTrue(dic.find_in_dict(word) is None, 'find word in freq dict test2 list: [false]')
+
 
 class TestFreqDictListImpl(ImplBaseTest):
     create_dict_exp = [['aa', 2], ['bb', 3], ['cc', 1]]
     chosen_implementation = freq_dict.FreqDictList
+    fd1 = [['aa', 2], ['dd', 1], ['d', 4]]
+    fd2 = [['aa', 3], ['cc', 1], ['d', 4]]
+    find_dict_right_index = 1
+
 
     def test_impl(self):
         self.check_create_dict()
@@ -165,6 +177,9 @@ class TestFreqDictListImpl(ImplBaseTest):
 class TestFreqDictDictImpl(ImplBaseTest):
     create_dict_exp = {'aa': 2, 'bb': 3, 'cc': 1}
     chosen_implementation = freq_dict.FreqDictDict
+    fd1 = {'aa': 2, 'dd': 1, 'd': 4}
+    fd2 = {'aa': 2, 'cc': 1, 'd': 4}
+    find_dict_right_index = -1
 
     def test_impl(self):
         self.check_create_dict()
@@ -178,23 +193,6 @@ class TestFreqDict(unittest.TestCase):
         for (t,l) in zip(text, list_of_words):
             self.assertTrue(chosen_implementation.split_to_words(t) == l, 'split to words test: [false]')
 
-    def check_find_dict(self, chosen_implementation):
-        word = 'dd'
-        list_fd1 = [['aa', 2], ['dd', 1], ['d', 4]]
-        list_fd2 = [['aa', 2], ['cc', 1], ['d', 4]]
-        dict_fd1 = {'aa': 2, 'dd': 1, 'd': 4}
-        dict_fd2 = {'aa': 2, 'cc': 1, 'd': 4}
-        dic = chosen_implementation()
-        if isinstance(dic, freq_dict.FreqDictList):
-            dic.fd = list_fd1
-            self.assertTrue(dic.find_in_dict(word) == 1, 'find word in freq dict test1 list: [false]')
-            dic.fd = list_fd2
-            self.assertTrue(dic.find_in_dict(word) is None, 'find word in freq dict test2 list: [false]')
-        else:
-            dic.fd = dict_fd1
-            self.assertTrue(dic.find_in_dict(word) == -1, 'find word in freq dict test1 dict: [false]')
-            dic.fd = dict_fd2
-            self.assertTrue(dic.find_in_dict(word) is None, 'find word in freq dict test2 dict: [false]')
 
     def check_add_word(self, chosen_implementation):
         word = 'dd'
@@ -228,7 +226,6 @@ class TestFreqDict(unittest.TestCase):
 
     def check_implementation(self, chosen_implementation):
         self.check_split(chosen_implementation)
-        self.check_find_dict(chosen_implementation)
         self.check_add_word(chosen_implementation)
         self.check_sort(chosen_implementation)
 
