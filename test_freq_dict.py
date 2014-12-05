@@ -11,7 +11,8 @@ class TestFreqDict(unittest.TestCase):
 
     def check_split(self, chosen_implementation):
         text = ['aa bb', 'aa - bb', 'aa,- bb', 'aa bb cc ']
-        list_of_words = [['aa','bb'], ['aa','bb'], ['aa','bb'], ['aa','bb','cc']]
+        list_of_words = [['aa','bb'], ['aa','bb'],
+                         ['aa','bb'], ['aa','bb','cc']]
         for (t,l) in zip(text, list_of_words):
             self.assertTrue(chosen_implementation.split_to_words(t) == l, 'split to words test: [false]')
 

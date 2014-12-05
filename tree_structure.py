@@ -1,8 +1,13 @@
 #!usr/bin/env python3
-'''Program creates a tree stucture with possibility of adding new node in it'''
+""" Program creates a tree stucture with possibility of adding new node
+    in it.
+"""
+
+import re
+import copy
 
 class Node:
-    '''Class, which contains main properties of node.'''
+    """ Class, which contains main properties of node. """
 
     def __init__(self, word=None, cnt=None, left=None, right=None):
         self.word = word
@@ -27,8 +32,9 @@ class Node:
             )
 
         return message
+
 class Tree:
-    '''Class, which contains all methods and propeties of tree.'''
+    """ Class, which contains all methods and propeties of tree. """
 
     node = Node()
 
@@ -46,7 +52,7 @@ class Tree:
         return False
 
     def find_parent(self, word):
-        '''Method finds a parent of new word in tree.'''
+        """ Method finds a parent of new word in tree. """
         if self.root == None:
             return None
         parent = self.root
@@ -66,7 +72,7 @@ class Tree:
         return parent
 
     def add_node(self, word):
-        '''Method adds new word in tree.'''
+        """ Method adds new word in tree. """
         parent = self.find_parent(word)
         if parent == None:
             new_node = Node(None, None, None, None)
@@ -88,7 +94,7 @@ class Tree:
             return self
 
     def find_node(self, node):
-        '''Method finds node in tree'''
+        """ Method finds node in tree. """
         comp_node = self.root
         while comp_node is not None:
             if comp_node.word > node.word:
@@ -104,3 +110,42 @@ class Tree:
             else:
                 return comp_node
         return None
+
+class FreqDictImpl(Tree):
+
+    tree = Tree()
+
+    @staticmethod
+    def split_to_words(text):
+        text = text.lower()
+        text = text.strip()
+        text = re.sub('\d', '', text)
+        words = re.split('\W*', text)
+        return words
+
+    def create_tree(self, words):
+        for word in words:
+            self.tree = self.tree.add_node(word)
+        return self.tree
+
+    def convert_tree_to_list(self):
+        current_node = self.tree.root
+        freq_dict = []
+        #не запускай код! зависнет комп
+        while (self.tree.root.left is not None and
+               self.tree.root.right is not None):
+            while (current_node.left is not None or
+                   current_node.right is not None):
+                if current_node.left is not None:
+                    current_node = current_node.left
+                elif current_node.right is not None:
+                    current_node = current_node.right
+            word = current_node.word
+            count = current_node.cnt
+            freq_dict.append([word, count])
+            current_node = None
+            current_node = self.tree.find_parent(word)
+        word = self.tree.root.word
+        count = self.tree.root.count
+        freq_dict.append([word, count])
+        return freq_dict
