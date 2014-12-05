@@ -188,15 +188,6 @@ class TestFreqDict(unittest.TestCase):
                 res = dic.add_word(word)
                 self.assertTrue(res == n, 'add word in freq dict test1 dict: [false] {} {}'.format(res, n))
 
-    def check_create_dict(self, chosen_implementation):
-        words = ['aa', 'bb', 'cc', 'aa', 'bb', 'bb']
-        list_fd = [['aa', 2], ['bb', 3], ['cc', 1]]
-        dict_fd = {'aa': 2, 'bb': 3, 'cc': 1}
-        dic = chosen_implementation()
-        # TODO: when there is more than 2 implementations - error here))
-        expected_out = list_fd if isinstance(dic, freq_dict.FreqDictList) else dict_fd
-        res = dic.create_dict(words)
-        self.assertTrue(res == expected_out, 'create dict test: [false] implementation:{}, was:{} should:{} '.format(type(dic), res, expected_out))
 
     def check_sort(self, chosen_implementation):
         sort_fd = [['bb', 3], ['aa', 2], ['cc', 1]]
