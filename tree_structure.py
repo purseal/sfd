@@ -4,11 +4,11 @@
 """
 
 
-
 class Node:
     """ Class, which contains main properties of node. """
 
-    def __init__(self, word=None, cnt=None, left=None, right=None, parent=None, checked=False):
+    def __init__(self, word=None, cnt=None, left=None,
+                 right=None, parent=None, checked=False):
         self.word = word
         self.cnt = cnt
         self.left = left
@@ -19,10 +19,10 @@ class Node:
     def __eq__(self, other):
         if not other:
             return False
-        if (self.word == other.word
-            and self.cnt == other.cnt
-            and self.left == other.left
-            and self.right == other.right):
+        if (self.word == other.word and
+                self.cnt == other.cnt and
+                self.left == other.left and
+                self.right == other.right):
             return True
 
     def __repr__(self):
@@ -35,6 +35,7 @@ class Node:
 
         return message
 
+
 class Tree:
     """ Class, which contains all methods and propeties of tree. """
 
@@ -46,10 +47,10 @@ class Tree:
     def __eq__(self, other):
         if not other:
             return False
-        if (self.root.word == other.root.word
-            and self.root.cnt == other.root.cnt
-            and self.root.left == other.root.left
-            and self.root.right == other.root.right):
+        if (self.root.word == other.root.word and
+                self.root.cnt == other.root.cnt and
+                self.root.left == other.root.left and
+                self.root.right == other.root.right):
             return True
         return False
 

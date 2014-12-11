@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+''' Test of freq_dict.py with 3 reliasations: list, dictionary, tree structure.
+'''
 
 import freq_dict
 import unittest
@@ -107,15 +109,8 @@ class TestTreeStruct(unittest.TestCase):
         res = tree.find_node(node)
         assert res is None, self.message.format(res, exp_res)
 
-    def test_split_to_word(self):
-        text = ['aa bb', 'aa - bb', 'aa,- bb', 'aa bb cc ']
-        list_of_words = [['aa','bb'], ['aa','bb'],
-                         ['aa','bb'], ['aa','bb','cc']]
-        for (t,l) in zip(text, list_of_words):
-            res = freq_dict.FreqDictTree.split_to_words(t)
-            assert res == l, self.message.format(res, l)
-
     def test_create_tree(self):
+        ''' This method makes test of method create_tree in freq_dict.py. '''
         list_of_words = ['d', 'b', 'e', 'a', 'b', 'c']
         tree = ts.Tree()
         tree.add_node('d')
@@ -130,6 +125,9 @@ class TestTreeStruct(unittest.TestCase):
         assert res == exp_res, self.message.format(res, exp_res)
 
     def test_convert_tree_to_list(self):
+        ''' This method maes test of method convert_tree_to_list in
+            freq_dict.py.
+        '''
         tree = ts.Tree()
         tree.root = ts.Node('d', 1)
         tree.add_node('b')
@@ -144,75 +142,113 @@ class TestTreeStruct(unittest.TestCase):
         assert res == exp_res, self.message.format(res, exp_res)
 
 class ImplBaseTest(unittest.TestCase):
+    ''' Class contains test's methods, which differs only in the values of used
+        variables.
+    '''
+
     create_dict_exp = None
     chosen_implementation = None
+    message = 'was: ({}), should: ({})'
+    fd1 = None
+    fd2 = None
+    find_dict_right_index = None
+    add_word_fd = None
+    add_word_new_fd = None
 
     def check_create_dict(self):
+        ''' Method makes test of method create_dict in freq_dict.py. '''
         words = ['aa', 'bb', 'cc', 'aa', 'bb', 'bb']
         dic = self.chosen_implementation()
-        expected_out = self.create_dict_exp
+        exp_res = self.create_dict_exp
         res = dic.create_dict(words)
-        self.assertTrue(res == expected_out, 'create dict test: [false] implementation:{}, was:{} should:{} '.format(type(dic), res, expected_out))
+        assert res == exp_res, self.message.format(res, exp_res)
 
     def check_find_dict(self):
+        ''' Method makes test of find_dict method in freq_dict.py. '''
         word = 'dd'
-        dic = chosen_implementation()
-        dic.fd = self.fd1
-        self.assertTrue(dic.find_in_dict(word) == self.find_dict_right_index, 'find word in freq dict test1 list: [false]')
-        dic.fd = self.fd2
-        self.assertTrue(dic.find_in_dict(word) is None, 'find word in freq dict test2 list: [false]')
+        dic = self.chosen_implementation()
+        dic.f_dict = self.fd1
+        res = dic.find_in_dict(word)
+        exp_res = self.find_dict_right_index
+        assert res == exp_res, self.message.format(res, exp_res)
+
+        dic.f_dict = self.fd2
+        res = dic.find_in_dict(word)
+        assert res is None, self.message.format(res, None)
+
+    def check_add_word(self):
+        ''' Method makes test of method add_word in freq_dict.py. '''
+        word = 'dd'
+        dic = self.chosen_implementation()
+        for (word_fd, word_new_fd) in zip(self.add_word_fd,
+                                          self.add_word_new_fd):
+            dic.f_dict = word_fd
+            res = dic.add_word(word)
+            assert res == word_new_fd, self.message.format(res, word_new_fd)
+
+    def run_all_checks(self):
+    ''' Method runs all check methods. '''
+        self.check_create_dict()
+        self.check_find_dict()
+        self.check_add_word()
 
 
 class TestFreqDictListImpl(ImplBaseTest):
+    ''' Class contains all variables for test of freq_dict in list
+        implementation, which calls in ImplBaseTest's mehods.
+    '''
+
     create_dict_exp = [['aa', 2], ['bb', 3], ['cc', 1]]
     chosen_implementation = freq_dict.FreqDictList
     fd1 = [['aa', 2], ['dd', 1], ['d', 4]]
-    fd2 = [['aa', 3], ['cc', 1], ['d', 4]]
+    fd2 = [['aa', 2], ['cc', 1], ['d', 4]]
     find_dict_right_index = 1
-
+    add_word_fd = [[['aa', 1], ['dd', 2]], [['aa', 1], ['bb', 3]]]
+    add_word_new_fd = [[['aa', 1], ['dd', 3]],
+                       [['aa', 1], ['bb', 3], ['dd', 1]]]
 
     def test_impl(self):
-        self.check_create_dict()
+        ''' Method runs all check methods higher. '''
+        self.run_all_checks()
+
 
 class TestFreqDictDictImpl(ImplBaseTest):
+    ''' Class contains all variables for test of freq_dict in dict
+        implementation, which calls in ImplBaseTest's mehods.
+    '''
+
     create_dict_exp = {'aa': 2, 'bb': 3, 'cc': 1}
     chosen_implementation = freq_dict.FreqDictDict
     fd1 = {'aa': 2, 'dd': 1, 'd': 4}
     fd2 = {'aa': 2, 'cc': 1, 'd': 4}
     find_dict_right_index = -1
+    add_word_fd = [{'aa': 1, 'dd': 2}, {'aa': 1, 'bb': 3}]
+    add_word_new_fd = [{'aa': 1, 'dd': 3}, {'aa': 1, 'bb': 3, 'dd': 1}]
+    message = 'was: ({}), should: ({})'
 
     def test_impl(self):
-        self.check_create_dict()
+        ''' Method runs all check methods higher. '''
+        self.run_all_checks()
 
 class TestFreqDict(unittest.TestCase):
+    ''' Class contains tests for similar methods in all realisations
+        in freq_dict.py
+    '''
+
+    message = 'was: ({}), should: ({})'
 
     def check_split(self, chosen_implementation):
-        text = ['aa bb', 'aa - bb', 'aa,- bb', 'aa bb cc ']
-        list_of_words = [['aa','bb'], ['aa','bb'],
-                         ['aa','bb'], ['aa','bb','cc']]
-        for (t,l) in zip(text, list_of_words):
-            self.assertTrue(chosen_implementation.split_to_words(t) == l, 'split to words test: [false]')
-
-
-    def check_add_word(self, chosen_implementation):
-        word = 'dd'
-        list_fd = [[['aa', 1], ['dd', 2]], [['aa', 1], ['bb', 3]]]
-        list_new_fd = [[['aa', 1], ['dd', 3]], [['aa', 1], ['bb', 3], ['dd', 1]]]
-        dict_fd = [{'aa': 1, 'dd': 2}, {'aa': 1, 'bb': 3}]
-        new_fd = [{'aa': 1, 'dd': 3}, {'aa': 1, 'bb': 3, 'dd': 1}]
-        dic = chosen_implementation()
-        if isinstance(dic, freq_dict.FreqDictList):
-            for (f,n) in zip(list_fd, list_new_fd):
-                dic.fd = f
-                self.assertTrue(dic.add_word(word) == n, 'add word in freq dict test1 list: [false]')
-        else:
-            for (f,n) in zip(dict_fd, new_fd):
-                dic.fd = f
-                res = dic.add_word(word)
-                self.assertTrue(res == n, 'add word in freq dict test1 dict: [false] {} {}'.format(res, n))
-
+        ''' Method makes test for split_to_words method in freq_dict.py. '''
+        text_list = ['aa bb', 'aa - bb', 'aa,- bb', 'aa bb cc ']
+        list_of_words_list = [['aa', 'bb'], ['aa', 'bb'],
+                              ['aa', 'bb'], ['aa', 'bb', 'cc']]
+        for (text, list_of_words) in zip(text_list, list_of_words_list):
+            res = chosen_implementation.split_to_words(text)
+            assert res == list_of_words, self.message.format(res,
+                                                             list_of_words)
 
     def check_sort(self, chosen_implementation):
+        ''' Method makes test est of sort method in freq_dict.py. '''
         sort_fd = [['bb', 3], ['aa', 2], ['cc', 1]]
         dic = chosen_implementation()
         dic.add_word('aa')
@@ -222,18 +258,24 @@ class TestFreqDict(unittest.TestCase):
         dic.add_word('bb')
         dic.add_word('cc')
         res = dic.sort()
-        self.assertTrue(res == sort_fd, 'sort test: [false] was:{} should:{}'.format(res, sort_fd))
+        assert res == sort_fd, self.message.format(res, sort_fd)
 
     def check_implementation(self, chosen_implementation):
+        ''' Method runs check method for choosen implementation'''
         self.check_split(chosen_implementation)
-        self.check_add_word(chosen_implementation)
         self.check_sort(chosen_implementation)
 
     def test_list_impl(self):
+        ''' Method runs check_implementation for List implementation. '''
         self.check_implementation(freq_dict.FreqDictList)
 
     def test_dict_impl(self):
+        ''' Method runs check_implementation for Dict implementation. '''
         self.check_implementation(freq_dict.FreqDictDict)
+
+    def test_tree_impl(self):
+        ''' Method runs check_implementation for Tree implementation. '''
+        self.check_implementation(freq_dict.FreqDictTree)
 
 if __name__ == '__main__':
     unittest.main()
