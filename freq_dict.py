@@ -164,7 +164,7 @@ class FreqDictTree(Tree):
 
 
 if __name__ == '__main__':
-    SFD = FreqDictList()
+    SFD = FreqDictDict()
     INPUT_FILE_NAME = sys.argv[1]
     OUTPUT_FILE_NAME = sys.argv[2]
     with open(INPUT_FILE_NAME) as text_file:
@@ -172,7 +172,7 @@ if __name__ == '__main__':
         LIST_OF_WORDS = SFD.split_to_words(STRING_OF_TEXT)
         FD = SFD.create_dict(LIST_OF_WORDS)
         FD = SFD.sort()
-    with open(OUTPUT_FILE_NAME, 'w+') as fd_file:
+    with open(OUTPUT_FILE_NAE, 'w+') as fd_file:
         for count, a_word in FD:
             output = '{} {}\n'.format(a_word, count)
             fd_file.write(output)

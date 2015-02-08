@@ -1,5 +1,0 @@
-#! usr/bin/env python3
-''' This program sends a comand to the server
-    and transform its output in a readable view.
-'''
-
